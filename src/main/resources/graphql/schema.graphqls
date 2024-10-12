@@ -6,13 +6,46 @@ type Product{
     stock:Int
 }
 
+type User{
+    userId:ID!,
+    name:String,
+    email:String,
+    phone:String,
+    password:String,
+    orders:[Order]
+
+}
+
+type Order{
+    orderId:ID!,
+    orderDetails:String,
+    address:String,
+    price:Int,
+    user:User
+}
 
 type Query{
     getProducts:[Product]
     getProductsByCategory(category:String):[Product]
+    getAllUser:[User]
+    getUserById(userId:ID!):User
+    getAllOrders:[Order]
+    getOrderById(orderId:ID!):Order
 }
 
 type Mutation{
     updateStock(id:ID,stock:Int):Product
     receiveNewShipment(id:ID,quantity:Int):Product
+    createUser(name:String, email:String, phone:String, password:String):User
+    deleteUserById(userId:ID!):Boolean
+    createOrder(orderDetails:String, address:String, price:Int, userId:Int!):Order
+    deleteOrderById(orderId:ID!):Boolean
+    createOrderBySecondWay(orderInput: OrderInput, userId:Int!):Order
+}
+
+# Input type for mutation
+input OrderInput {
+  orderDetails: String
+  address: String
+  price: Int
 }
